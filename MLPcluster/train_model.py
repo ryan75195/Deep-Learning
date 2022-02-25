@@ -45,7 +45,7 @@ val_dl = make_dataloaders(batch_size=16,paths=val_paths, split='val')
 net_G = build_res_unet(n_input=1, n_output=2, size=256)
 opt = optim.Adam(net_G.parameters(), lr=1e-4)
 criterion = nn.L1Loss()        
-pretrain_generator(net_G, train_dl, opt, criterion, 41)
+pretrain_generator(net_G, train_dl, opt, criterion, 20)
 #torch.save(net_G.state_dict(), "res18-unet.pt")
 
 
