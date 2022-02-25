@@ -27,10 +27,10 @@ def pretrain_generator(net_G, train_dl, opt, criterion, epochs):
             opt.step() 
             loss_meter.update(loss.item(), L.size(0))
 
-        i += 1
-        if i % 10 == 0:
-            name = "res18"+str(i)+"-unet.pt"
-            torch.save(net_G.state_dict(), name)
-
+#        i += 1
+#        if i % 10 == 0:
+#            name = "res18"+str(i)+"-unet.pt"
+#            torch.save(net_G.state_dict(), name)
+###Modify here to write out result to file###
         print(f"Epoch {e + 1}/{epochs}")
         print(f"L1 Loss: {loss_meter.avg:.5f}")
