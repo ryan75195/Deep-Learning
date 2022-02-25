@@ -10,7 +10,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def build_res_unet(n_input=1, n_output=2, size=256):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    body = create_body(resnet34, pretrained=True, n_in=n_input, cut=-2)
+    body = create_body(resnet18, pretrained=True, n_in=n_input, cut=-2)
     net_G = DynamicUnet(body, n_output, (size, size)).to(device)
     return net_G
     
@@ -28,7 +28,7 @@ def pretrain_generator(net_G, train_dl, opt, criterion, epochs):
             loss_meter.update(loss.item(), L.size(0))
 
         i += 1
-        if i % 2 == 0:
+        if i % 10 == 0:
             name = "res18"+str(i)+"-unet.pt"
             torch.save(net_G.state_dict(), name)
 

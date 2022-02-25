@@ -39,19 +39,19 @@ def train_model(model, train_dl, epochs, display_every=200):
                 log_results(loss_meter_dict) # function to print out the losses
                 #visualize(model, data, save=False) # function displaying the model's outputs
 
-train_dl = make_dataloaders(paths=train_paths, split='train')
-val_dl = make_dataloaders(paths=val_paths, split='val')
+train_dl = make_dataloaders(batch_size=16,paths=train_paths, split='train')
+val_dl = make_dataloaders(batch_size=16,paths=val_paths, split='val')
 
 net_G = build_res_unet(n_input=1, n_output=2, size=256)
 opt = optim.Adam(net_G.parameters(), lr=1e-4)
 criterion = nn.L1Loss()        
-pretrain_generator(net_G, train_dl, opt, criterion, 30)
-torch.save(net_G.state_dict(), "res18-unet.pt")
+pretrain_generator(net_G, train_dl, opt, criterion, 41)
+#torch.save(net_G.state_dict(), "res18-unet.pt")
 
 
-net_G = build_res_unet(n_input=1, n_output=2, size=256)
-net_G.load_state_dict(torch.load("res18-unet.pt", map_location=device))
-model = MainModel(net_G=net_G)
-train_model(model, train_dl, 1)
+#net_G = build_res_unet(n_input=1, n_output=2, size=256)
+#net_G.load_state_dict(torch.load("res18-unet.pt", map_location=device))
+#model = MainModel(net_G=net_G)
+#train_model(model, train_dl, 1)
 
 
