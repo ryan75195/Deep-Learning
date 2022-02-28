@@ -19,7 +19,9 @@ def build_res_unet(n_input=1, n_output=2, size=256):
     
 def pretrain_generator(net_G, train_dl, opt, criterion, epochs):
     fileCounter = len(glob.glob1("data/accounts/Lossfiles", "*.txt"))
+    print(fileCounter)
     for e in range(epochs):
+        print(f"epoch:{e}")
         loss_meter = AverageMeter()
         i = 0 
         for data in tqdm(train_dl):
