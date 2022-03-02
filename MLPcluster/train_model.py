@@ -28,8 +28,8 @@ def train_model(model, train_dl, epochs, display_every=200):
     for e in range(epochs):
         loss_meter_dict = create_loss_meters() # function returing a dictionary of objects to 
         i = 0                                  # log the losses of the complete network
-        for data in tqdm(train_dl):
-            model.setup_input(data) 
+        for idx,data in enumerate(tqdm(train_dl)):
+            model.setup_input(data)
             model.optimize()
             update_losses(model, loss_meter_dict, count=data['L'].size(0)) # function updating the log objects
             i += 1
@@ -39,19 +39,20 @@ def train_model(model, train_dl, epochs, display_every=200):
                 log_results(loss_meter_dict) # function to print out the losses
                 #visualize(model, data, save=False) # function displaying the model's outputs
 
-train_dl = make_dataloaders(batch_size=16, n_workers=2,paths=train_paths, split='train')
-val_dl = make_dataloaders(batch_size=16, n_workers=2, paths=val_paths, split='val')
+def run_experiment(resnet, learningRate):
+    train_dl = make_dataloaders(batch_size=16, n_workers=4,paths=train_paths, split='train')
+    val_dl = make_dataloaders(batch_size=16, n_workers=4, paths=val_paths, split='val')
 
-net_G = build_res_unet(n_input=1, n_output=2, size=256)
-opt = optim.Adam(net_G.parameters(), lr=1e-4)
-criterion = nn.L1Loss()        
-pretrain_generator(net_G, train_dl, opt, criterion, 25)
-#torch.save(net_G.state_dict(), "res18-unet.pt")
+    net_G = build_res_unet(resnet, n_input=1, n_output=2, size=256)
+    opt = optim.Adam(net_G.parameters(), lr=learningRate)
+    criterion = nn.L1Loss()
+    pretrain_generator(net_G, train_dl, opt, criterion, 30, resnet, learningRate)
+    #torch.save(net_G.state_dict(), "res18-unet.pt")
 
 
-#net_G = build_res_unet(n_input=1, n_output=2, size=256)
-#net_G.load_state_dict(torch.load("res18-unet.pt", map_location=device))
-#model = MainModel(net_G=net_G)
-#train_model(model, train_dl, 1)
+    #net_G = build_res_unet(n_input=1, n_output=2, size=256)
+    #net_G.load_state_dict(torch.load("res18-unet.pt", map_location=device))
+    #model = MainModel(net_G=net_G)
+    #train_model(model, train_dl, 1)
 
 

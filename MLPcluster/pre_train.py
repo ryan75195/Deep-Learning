@@ -11,20 +11,25 @@ import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-def build_res_unet(n_input=1, n_output=2, size=256):
+def build_res_unet(resnetType, n_input=1, n_output=2, size=256):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    body = create_body(resnet18, pretrained=True, n_in=n_input, cut=-2)
+    if resnetType == 18:
+        body = create_body(resnet18, pretrained=True, n_in=n_input, cut=-2)
+    elif resnetType == 34:
+        body = create_body(resnet34, pretrained=True, n_in=n_input, cut=-2)
+    else:
+        print("invalid resnet type")
+        exit()
     net_G = DynamicUnet(body, n_output, (size, size)).to(device)
     return net_G
     
-def pretrain_generator(net_G, train_dl, opt, criterion, epochs):
-    fileCounter = len(glob.glob1("data/accounts/Lossfiles", "*.txt"))
-    print(fileCounter)
+def pretrain_generator(net_G, train_dl, opt, criterion, epochs, resnetType, lr):
     for e in range(epochs):
         print(f"epoch:{e}")
         loss_meter = AverageMeter()
         i = 0 
-        for data in tqdm(train_dl):
+        for idx,data in enumerate(tqdm(train_dl)):
+            print(f"{idx}/{len(tqdm(train_dl))}")
             L, ab = data['L'].to(device), data['ab'].to(device)
             preds = net_G(L)
             loss = criterion(preds, ab)
@@ -38,7 +43,7 @@ def pretrain_generator(net_G, train_dl, opt, criterion, epochs):
 #            name = "res18"+str(i)+"-unet.pt"
 #            torch.save(net_G.state_dict(), name)
 ###Modify here to write out result to file###
-        with open(f"loss-{fileCounter}") as file:
-            print(f"Epoch {e + 1}/{epochs}")
-            print(f"L1 Loss: {loss_meter.avg:.5f}")
+        print(f"Epoch {e + 1}/{epochs}")
+        print(f"L1 Loss: {loss_meter.avg:.5f}")
+        with open(f"rs{resnetType}-{lr}-loss", "a+") as file:
             file.write(f"{e + 1},{loss_meter.avg:.5f}\n")

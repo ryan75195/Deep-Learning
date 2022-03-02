@@ -36,7 +36,7 @@ class ColorizationDataset(Dataset):
         if split == 'train':
             self.transforms = transforms.Compose([
                 transforms.Resize((SIZE, SIZE), Image.BICUBIC),
-                transforms.RandomHorizontalFlip(),  # A little data augmentation!
+                # transforms.RandomHorizontalFlip(),  # A little data augmentation!
             ])
         elif split == 'val':
             self.transforms = transforms.Resize((SIZE, SIZE), Image.BICUBIC)
