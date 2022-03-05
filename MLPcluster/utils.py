@@ -91,7 +91,7 @@ def log_results(loss_meter_dict):
     for loss_name, loss_meter in loss_meter_dict.items():
         print(f"{loss_name}: {loss_meter.avg:.5f}")
 
-    # Computes the psnr for a batch of images
+    #Computes the psnr for a batch of images
 def compute_psnr( fake_imgs, real_imgs):
           batch_size = fake_imgs.shape[0]
           total_psnr_batch = 0
