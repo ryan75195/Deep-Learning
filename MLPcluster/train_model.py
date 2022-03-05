@@ -39,8 +39,8 @@ def train_model(model, train_dl, epochs, display_every=200):
                 log_results(loss_meter_dict) # function to print out the losses
                 #visualize(model, data, save=False) # function displaying the model's outputs
 
-train_dl = make_dataloaders(batch_size=16,paths=train_paths, split='train')
-val_dl = make_dataloaders(batch_size=16,paths=val_paths, split='val')
+#train_dl = make_dataloaders(batch_size=16,paths=train_paths, split='train')
+#val_dl = make_dataloaders(batch_size=16,paths=val_paths, split='val')
 
 
 def run_experiment(resnet, learningRate,weight_decay):
