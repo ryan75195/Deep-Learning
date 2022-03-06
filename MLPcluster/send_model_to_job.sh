@@ -36,4 +36,5 @@ id=$(whoami)
 
 source /home/${STUDENT_ID}/miniconda3/bin/activate mlp
 
+export CUDA_VISIBLE_DEVICES=0
 python experimentBuilder.py
