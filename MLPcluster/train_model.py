@@ -21,7 +21,7 @@ from  models import *
 from utils import *
 from pre_train import *
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train_model(model, train_dl, epochs, display_every=200):
     data = next(iter(val_dl)) # getting a batch for visualizing the model output after fixed intrvals
@@ -47,7 +47,7 @@ def run_experiment(resnet, learningRate,weight_decay):
     net_G = build_res_unet(resnet, n_input=1, n_output=2, size=256)
     opt = optim.Adam(net_G.parameters(), lr=learningRate,weight_decay=weight_decay)
     criterion = nn.L1Loss()
-    pretrain_generator(net_G, train_dl,val_dl, opt, criterion, 25, resnet, learningRate,weight_decay)
+    pretrain_generator(net_G, train_dl,val_dl, opt, criterion, 20, resnet, learningRate,weight_decay)
 
 #net_G = build_res_unet(n_input=1, n_output=2, size=256)
 #opt = optim.Adam(net_G.parameters(), lr=1e-4)
