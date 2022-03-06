@@ -61,7 +61,7 @@ def pretrain_generator(net_G, train_dl,val_dl, opt, criterion, epochs,resnet, lr
             file.write(f"{e+1},PSNR, {psnr:.4f}\n")
             file.write(f"{e+1},SSIM, {ssim:.4f}\n")
 
-        i += 1
-        if i % 10 == 0:
-            name = "res"+str(resnet)+"epoch"+str(i)+"-unet.pt"
-            torch.save(net_G.state_dict(), name)
+#        i += 1
+#        if i % 10 == 0:
+#            name = "res"+str(resnet)+"epoch"+str(i)+"-unet.pt"
+#            torch.save(net_G.state_dict(), name)
