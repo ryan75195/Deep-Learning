@@ -40,4 +40,4 @@ source /home/${STUDENT_ID}/miniconda3/bin/activate mlp
 #print(torch.cuda.is_available())
 export CUDA_VISIBLE_DEVICES=0
 #print(torch.cuda.is_available())
-python expBiuldLr.py
+python expBuildLr.py
