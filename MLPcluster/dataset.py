@@ -37,6 +37,10 @@ class ColorizationDataset(Dataset):
             self.transforms = transforms.Compose([
                 transforms.Resize((SIZE, SIZE), Image.BICUBIC),
 #                transforms.RandomHorizontalFlip(),  # A little data augmentation!
+                #transforms.RandomAutocontrast(),                                                                                             
+                #transforms.RandomRotation(degrees=(0,20)),                                                                                   
+                #transforms.RandomAdjustSharpness(sharpness_factor=3),                                                                        
+                #transforms. RandomVerticalFlip (),
             ])
         elif split == 'val':
             self.transforms = transforms.Resize((SIZE, SIZE), Image.BICUBIC)
